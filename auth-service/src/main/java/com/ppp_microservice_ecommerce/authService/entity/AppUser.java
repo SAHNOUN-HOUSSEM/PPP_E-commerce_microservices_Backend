@@ -1,4 +1,4 @@
-package com.ppp.authService.entity;
+package com.ppp_microservice_ecommerce.authService.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

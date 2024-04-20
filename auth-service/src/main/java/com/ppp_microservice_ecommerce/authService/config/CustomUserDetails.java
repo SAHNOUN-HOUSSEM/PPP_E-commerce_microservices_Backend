@@ -1,7 +1,7 @@
-package com.ppp.authService.config;
+package com.ppp_microservice_ecommerce.authService.config;
 
 
-import com.ppp.authService.entity.AppUser;
+import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

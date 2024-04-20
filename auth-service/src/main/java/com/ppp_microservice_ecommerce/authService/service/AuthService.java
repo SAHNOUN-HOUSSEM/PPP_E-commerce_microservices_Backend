@@ -1,10 +1,10 @@
-package com.ppp.authService.service;
+package com.ppp_microservice_ecommerce.authService.service;
 
-import com.ppp.authService.dto.LoginUserDto;
-import com.ppp.authService.dto.RegisterUserDto;
-import com.ppp.authService.entity.AppUser;
-import com.ppp.authService.entity.AppUserRoles;
-import com.ppp.authService.repository.UserRepository;
+import com.ppp_microservice_ecommerce.authService.dto.LoginUserDto;
+import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
+import com.ppp_microservice_ecommerce.authService.entity.AppUser;
+import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
+import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

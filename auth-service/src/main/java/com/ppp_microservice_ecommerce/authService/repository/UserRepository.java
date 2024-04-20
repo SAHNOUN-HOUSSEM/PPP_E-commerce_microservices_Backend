@@ -1,6 +1,6 @@
-package com.ppp.authService.repository;
+package com.ppp_microservice_ecommerce.authService.repository;
 
-import com.ppp.authService.entity.AppUser;
+import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

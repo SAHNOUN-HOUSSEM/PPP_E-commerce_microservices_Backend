@@ -1,8 +1,7 @@
-package com.ppp.authService.config;
+package com.ppp_microservice_ecommerce.authService.config;
 
-import com.ppp.authService.entity.AppUser;
-import com.ppp.authService.repository.UserRepository;
-import lombok.AllArgsConstructor;
+import com.ppp_microservice_ecommerce.authService.entity.AppUser;
+import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

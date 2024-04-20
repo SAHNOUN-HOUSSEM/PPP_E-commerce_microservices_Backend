@@ -1,4 +1,4 @@
-package com.ppp.authService.dto;
+package com.ppp_microservice_ecommerce.authService.dto;
 
 public record RegisterUserDto (
          String username,

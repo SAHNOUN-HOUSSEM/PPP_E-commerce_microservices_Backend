@@ -1,4 +1,4 @@
-package com.ppp.authService.config;
+package com.ppp_microservice_ecommerce.authService.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

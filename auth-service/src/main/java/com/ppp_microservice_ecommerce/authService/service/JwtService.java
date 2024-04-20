@@ -1,4 +1,4 @@
-package com.ppp.authService.service;
+package com.ppp_microservice_ecommerce.authService.service;
 
 import org.springframework.stereotype.Service;
 

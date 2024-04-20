@@ -1,11 +1,10 @@
-package com.ppp.authService.controller;
+package com.ppp_microservice_ecommerce.authService.controller;
 
-import com.ppp.authService.dto.LoginUserDto;
-import com.ppp.authService.dto.RegisterUserDto;
-import com.ppp.authService.dto.ValidateTokenDto;
-import com.ppp.authService.entity.AppUser;
-import com.ppp.authService.service.AuthService;
-import javassist.tools.web.BadHttpRequest;
+import com.ppp_microservice_ecommerce.authService.dto.LoginUserDto;
+import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
+import com.ppp_microservice_ecommerce.authService.dto.ValidateTokenDto;
+import com.ppp_microservice_ecommerce.authService.entity.AppUser;
+import com.ppp_microservice_ecommerce.authService.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
