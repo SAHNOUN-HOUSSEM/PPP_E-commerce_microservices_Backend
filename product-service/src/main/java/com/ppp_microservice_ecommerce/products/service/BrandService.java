@@ -17,4 +17,12 @@ public class BrandService {
     public void createBrand(Brand brand) {
         brandRepository.save(brand);
     }
+
+    public Iterable<Brand> getAllBrands() {
+        return brandRepository.findAll();
+    }
+
+    public Brand getBrand(Integer id) {
+        return brandRepository.findById(id).orElse(null);
+    }
 }

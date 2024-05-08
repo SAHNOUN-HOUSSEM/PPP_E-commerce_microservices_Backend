@@ -19,17 +19,23 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/get")
+    @GetMapping("")
     public List<Product> getProducts() {
         log.info("Getting product");
         return productService.getProducts();
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public void createProduct(@RequestBody Product product)
     {
         System.out.println(product.getId());
         log.info("Creating product");
         productService.createProduct(product);
+    }
+
+    @GetMapping("/{id}")
+    public Product getProduct(@PathVariable Integer id) {
+        log.info("Getting product by id");
+        return productService.getProduct(id);
     }
 }

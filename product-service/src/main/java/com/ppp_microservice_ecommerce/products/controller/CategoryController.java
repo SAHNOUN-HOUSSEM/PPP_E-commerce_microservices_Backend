@@ -3,10 +3,7 @@ package com.ppp_microservice_ecommerce.products.controller;
 import com.ppp_microservice_ecommerce.products.entites.Category;
 import com.ppp_microservice_ecommerce.products.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("category")
@@ -18,9 +15,20 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public void createCategory(@RequestBody Category category) {
         log.info("new category creation");
         categoryService.createCategory(category);
+        //System.out.println("entering createCategory");
+    }
+
+    @GetMapping()
+    public Iterable<Category> getAllCategories() {
+        return categoryService.getAllCategories();
+    }
+
+    @GetMapping("/{id}")
+    public Category getCategory(@PathVariable Integer id) {
+        return categoryService.getCategory(id);
     }
 }
