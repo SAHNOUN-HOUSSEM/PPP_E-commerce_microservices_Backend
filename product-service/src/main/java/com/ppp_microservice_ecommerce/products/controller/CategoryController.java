@@ -1,6 +1,6 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
-import com.ppp_microservice_ecommerce.products.entites.Category;
+import com.ppp_microservice_ecommerce.products.entities.Category;
 import com.ppp_microservice_ecommerce.products.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category getCategory(@PathVariable Integer id) {
+    public Category getCategory(@PathVariable int id) {
         return categoryService.getCategory(id);
     }
 }

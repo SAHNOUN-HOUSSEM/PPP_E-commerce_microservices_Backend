@@ -1,6 +1,7 @@
 package com.ppp_microservice_ecommerce.products.service;
 
-import com.ppp_microservice_ecommerce.products.entites.Product;
+import com.ppp_microservice_ecommerce.products.entities.Product;
+import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,9 @@ public class ProductService {
         productRepository.saveAndFlush(product);
     }
 
-    public Product getProduct(Integer id) {
-        return productRepository.findById(id).orElse(null);
+    public Product getProduct(int id) {
+        System.out.println(id);
+//        return productRepository.findById(id).orElse(null);
+        return productRepository.findById(1).orElse(null);
     }
 }

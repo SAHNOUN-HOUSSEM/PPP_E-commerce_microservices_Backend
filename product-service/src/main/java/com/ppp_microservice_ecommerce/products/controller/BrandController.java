@@ -1,6 +1,6 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
-import com.ppp_microservice_ecommerce.products.entites.Brand;
+import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.service.BrandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

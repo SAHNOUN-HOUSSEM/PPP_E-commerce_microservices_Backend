@@ -1,6 +1,7 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
-import com.ppp_microservice_ecommerce.products.entites.Product;
+import com.ppp_microservice_ecommerce.products.entities.Product;
+import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,13 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     public List<Product> getProducts() {
         log.info("Getting product");
         return productService.getProducts();
     }
 
-    @PostMapping("")
+    @PostMapping()
     public void createProduct(@RequestBody Product product)
     {
         System.out.println(product.getId());
@@ -37,5 +38,8 @@ public class ProductController {
     public Product getProduct(@PathVariable Integer id) {
         log.info("Getting product by id");
         return productService.getProduct(id);
+//        System.out.println(id);
+//        return null;
+
     }
 }
