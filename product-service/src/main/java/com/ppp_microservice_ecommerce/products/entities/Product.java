@@ -1,4 +1,4 @@
-package com.ppp_microservice_ecommerce.products.entites;
+package com.ppp_microservice_ecommerce.products.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;

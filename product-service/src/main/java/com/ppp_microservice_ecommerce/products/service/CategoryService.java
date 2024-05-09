@@ -1,6 +1,6 @@
 package com.ppp_microservice_ecommerce.products.service;
 
-import com.ppp_microservice_ecommerce.products.entites.Category;
+import com.ppp_microservice_ecommerce.products.entities.Category;
 import com.ppp_microservice_ecommerce.products.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 

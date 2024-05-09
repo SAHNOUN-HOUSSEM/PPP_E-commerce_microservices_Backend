@@ -1,6 +1,7 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
-import com.ppp_microservice_ecommerce.products.entites.Product;
+import com.ppp_microservice_ecommerce.products.entities.Product;
+import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
