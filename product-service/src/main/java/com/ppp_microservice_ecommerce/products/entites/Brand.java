@@ -1,5 +1,7 @@
 package com.ppp_microservice_ecommerce.products.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +28,7 @@ public class Brand {
     private String image;
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "brand")
     private List<Product> products;
 

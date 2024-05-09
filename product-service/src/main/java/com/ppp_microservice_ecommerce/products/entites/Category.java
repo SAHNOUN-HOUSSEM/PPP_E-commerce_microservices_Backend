@@ -1,6 +1,8 @@
 package com.ppp_microservice_ecommerce.products.entites;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +31,7 @@ public class Category {
     String image;
     String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
