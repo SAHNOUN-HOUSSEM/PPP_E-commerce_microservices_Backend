@@ -19,6 +19,17 @@ spring:
             - Path=/product/**
           filters:
             - AuthenticationFilter
+      globalcors:
+        cors-configurations:
+            '[/**]':
+                allowedOrigins: "*"
+                allowedMethods:
+                - GET
+                - POST
+                - PUT
+                - DELETE
+                allowedHeaders:
+                - "*"
 
 
 eureka:
