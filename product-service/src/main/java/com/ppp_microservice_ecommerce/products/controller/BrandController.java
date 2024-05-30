@@ -1,5 +1,6 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
+import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
 import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.service.BrandService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,11 @@ public class BrandController {
     @GetMapping("/{id}")
     public Brand getBrand(@PathVariable Integer id) {
         return brandService.getBrand(id);
+    }
+
+    @GetMapping("{id}/products")
+    public Iterable<ProductDTO> getBrandProducts(@PathVariable Integer id) {
+        return brandService.getBrandProducts(id);
     }
 
 }
