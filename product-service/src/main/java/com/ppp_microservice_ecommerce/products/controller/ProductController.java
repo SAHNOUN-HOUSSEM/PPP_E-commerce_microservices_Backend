@@ -40,6 +40,5 @@ public class ProductController {
         return productService.getProduct(id);
 //        System.out.println(id);
 //        return null;
-
     }
 }
