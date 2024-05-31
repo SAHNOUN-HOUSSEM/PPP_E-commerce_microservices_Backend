@@ -1,6 +1,8 @@
 server:
-  port: 8080
+  port: 8070
 spring:
+  profiles:
+    active: user
   application:
     name: auth-service
   datasource:

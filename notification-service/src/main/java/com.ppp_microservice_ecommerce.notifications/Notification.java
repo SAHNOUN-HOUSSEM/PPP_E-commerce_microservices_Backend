@@ -20,6 +20,6 @@ public class Notification extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_id_seq")
     private Integer notificationId;
 
-    private Integer orderId;
+    private Integer originId;
     private String message;
 }
