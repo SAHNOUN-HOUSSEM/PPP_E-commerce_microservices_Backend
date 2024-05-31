@@ -36,6 +36,8 @@ public class UserController {
 
     @PutMapping()
     public AppUser updateUser(@RequestBody UpdateUserDto updateUserDto, @RequestHeader("Authorization") String BearerToken) {
+        System.out.println("BearerToken = " + BearerToken);
+        System.out.println("updateUserDto = " + updateUserDto);
         String token = BearerToken.substring(7);
         Integer userIdFromToken = jwtService.getUserIdFromToken(token);
         log.info("Updating user by id {}", userIdFromToken);
