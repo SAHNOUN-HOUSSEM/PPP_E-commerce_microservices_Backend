@@ -38,7 +38,11 @@ public class ProductController {
     public Product getProduct(@PathVariable Integer id) {
         log.info("Getting product by id");
         return productService.getProduct(id);
-//        System.out.println(id);
-//        return null;
+    }
+
+    @PostMapping("/lists")
+    public List<Product> getProductsByIds(@RequestBody List<Integer> ids) {
+        log.info("Getting product by ids");
+        return productService.getProductsByIds(ids);
     }
 }
