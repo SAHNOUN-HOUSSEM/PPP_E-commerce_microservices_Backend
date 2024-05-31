@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @FeignClient(
-        name = "auth-service",
-        url = "http://localhost:8080"
+        "AUTH-SERVICE"
 )
 public interface AuthClient {
     @PostMapping("auth/validate")

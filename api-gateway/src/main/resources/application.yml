@@ -8,7 +8,7 @@ spring:
     gateway:
       routes:
         - id: auth-service
-          uri: lb://auth-service
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/auth/**
           filters:
@@ -17,7 +17,6 @@ spring:
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/product/**
-
         - id: category-service
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -27,13 +26,9 @@ spring:
           predicates:
             - Path=/brand/**
         - id: order-service
-          uri: lb://order-service
+          uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order/**
-        - id: category-service
-          uri: lb://product-service
-          predicates:
-            - Path=/category/**
       globalcors:
         cors-configurations:
           "[/**]":
