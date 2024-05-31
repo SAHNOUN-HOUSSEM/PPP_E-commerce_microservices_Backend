@@ -33,6 +33,10 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+    public List<Product> getProductsByIds(List<Integer> ids) {
+        return productRepository.findAllById(ids);
+    }
+
 
 
     public List<ProductResponse> areInStock(OrderRequest order) {
