@@ -6,7 +6,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(
+        scanBasePackages = {
+                "com.ppp_microservice_ecommerce.authService",
+                "com.ppp_microservice_ecommerce.amqp",
+                "com.ppp_microservice_ecommerce.clients",
+        }
+)
 @EnableEurekaClient
 public class AuthServiceApplication {
     public static void main(String[] args) {

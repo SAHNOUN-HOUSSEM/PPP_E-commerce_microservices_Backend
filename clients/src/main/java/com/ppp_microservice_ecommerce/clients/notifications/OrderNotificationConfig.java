@@ -7,15 +7,18 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
-public class    NotificationConfig {
+// doubtful
+@Profile("notification")
+public class OrderNotificationConfig {
 
     private final String internalExchange = "internal.exchange";
 
-    private final String notificationQueue = "notification.queue";
+    private final String orderNotificationQueue = "order.notification.queue";
 
-    private final String internalNotificationsRoutingKey = "internal.notification.routing-key";
+    private final String internalOrderNotificationsRoutingKey = "internal.order.notification.routing-key";
 
 
     @Bean
@@ -25,12 +28,12 @@ public class    NotificationConfig {
 
     @Bean
     public Queue notificationQueue() {
-        return new Queue(notificationQueue);
+        return new Queue(orderNotificationQueue);
     }
 
     @Bean
     public Binding internalToNotificationBiding(){
-        return BindingBuilder.bind(notificationQueue()).to(internalTopicExchange()).with(internalNotificationsRoutingKey);
+        return BindingBuilder.bind(notificationQueue()).to(internalTopicExchange()).with(internalOrderNotificationsRoutingKey);
     }
 
     public String getInternalExchange() {
@@ -38,10 +41,10 @@ public class    NotificationConfig {
     }
 
     public String getNotificationQueue() {
-        return notificationQueue;
+        return orderNotificationQueue;
     }
 
         public String getInternalNotificationsRoutingKey() {
-        return internalNotificationsRoutingKey;
+        return internalOrderNotificationsRoutingKey;
     }
 }

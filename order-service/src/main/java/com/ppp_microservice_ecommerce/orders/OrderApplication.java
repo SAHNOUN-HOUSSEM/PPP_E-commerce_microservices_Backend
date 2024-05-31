@@ -10,8 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
             scanBasePackages = {
                     "com.ppp_microservice_ecommerce.orders",
                     "com.ppp_microservice_ecommerce.amqp",
-                    "com.ppp_microservice_ecommerce.notifications",
-                    "com.ppp_microservice_ecommerce.clients.orders",
+                    "com.ppp_microservice_ecommerce.clients",
             }
     )
 @EnableEurekaClient

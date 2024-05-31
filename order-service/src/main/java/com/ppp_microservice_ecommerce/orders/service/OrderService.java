@@ -1,12 +1,12 @@
 package com.ppp_microservice_ecommerce.orders.service;
 
 import com.ppp_microservice_ecommerce.amqp.RabbitMQMessageProducer;
-import com.ppp_microservice_ecommerce.clients.notifications.NotificationRequest;
+import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationRequest;
 import com.ppp_microservice_ecommerce.clients.orders.OrderItemDto;
 import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
 import com.ppp_microservice_ecommerce.clients.products.ProductClient;
 import com.ppp_microservice_ecommerce.clients.products.ProductResponse;
-import com.ppp_microservice_ecommerce.clients.notifications.NotificationConfig;
+import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationConfig;
 import com.ppp_microservice_ecommerce.orders.entities.Order;
 import com.ppp_microservice_ecommerce.orders.entities.OrderItem;
 import com.ppp_microservice_ecommerce.orders.respository.OrderRespository;
@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLOutput;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,7 @@ public class OrderService {
     private final OrderRespository orderRespository;
     private final ProductClient ProductClient;
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
-    private final NotificationConfig notificationConfig;
+    private final OrderNotificationConfig orderNotificationConfig;
 
     public ResponseEntity<String> placeOrder(OrderRequest orderRequest){
         Order order = new Order();
@@ -50,17 +48,19 @@ public class OrderService {
         System.out.println("Order"+ order.getId());
 
         // send message to notification via rabbitmq
-        NotificationRequest notificationRequest = new NotificationRequest();
-        notificationRequest.setOrderID(order.getId());
-        notificationRequest.setMessage("Order placed successfully");
+        OrderNotificationRequest orderNotificationRequest = new OrderNotificationRequest();
+        orderNotificationRequest.setOrderID(order.getId());
+        orderNotificationRequest.setMessage("Order placed successfully");
 
         System.out.println("Updating product stock");
         ProductClient.updateStock(orderRequest);
 
         System.out.println("Sending notification to rabbitmq");
 
-        rabbitMQMessageProducer.publish(notificationRequest, notificationConfig.getInternalExchange(), notificationConfig.getInternalNotificationsRoutingKey());
+        rabbitMQMessageProducer.publish(orderNotificationRequest, orderNotificationConfig.getInternalExchange(), orderNotificationConfig.getInternalNotificationsRoutingKey());
         System.out.println("Sent notification");
+
+        // emit event to sse
 
 
         // return ok response to user
