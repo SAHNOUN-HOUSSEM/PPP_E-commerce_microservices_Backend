@@ -1,15 +1,22 @@
 package com.ppp_microservice_ecommerce.orders.service;
 
-import com.ppp_microservice_ecommerce.orders.dto.OrderItemDto;
-import com.ppp_microservice_ecommerce.orders.dto.OrderRequest;
+import com.ppp_microservice_ecommerce.amqp.RabbitMQMessageProducer;
+import com.ppp_microservice_ecommerce.clients.notifications.NotificationRequest;
+import com.ppp_microservice_ecommerce.clients.orders.OrderItemDto;
+import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
+import com.ppp_microservice_ecommerce.clients.products.ProductClient;
+import com.ppp_microservice_ecommerce.clients.products.ProductResponse;
+import com.ppp_microservice_ecommerce.clients.notifications.NotificationConfig;
 import com.ppp_microservice_ecommerce.orders.entities.Order;
 import com.ppp_microservice_ecommerce.orders.entities.OrderItem;
 import com.ppp_microservice_ecommerce.orders.respository.OrderRespository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,24 +24,53 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRespository orderRespository;
+    private final ProductClient ProductClient;
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
+    private final NotificationConfig notificationConfig;
 
-    public void placeOrder(OrderRequest orderRequest){
+    public ResponseEntity<String> placeOrder(OrderRequest orderRequest){
         Order order = new Order();
-        order.setOrderNumber((UUID.randomUUID()).toString());
 
         List<OrderItem> orderItemsList = orderRequest.getOrderItemsList().stream()
                 .map(orderItemDto -> mapFromDto(orderItemDto, order))
                 .collect(Collectors.toList());
 
         order.setOrderItemsList(orderItemsList);
+
+        // call product service to check if all products are in stock
+        System.out.println("Checking if all products are in stock");
+        List<ProductResponse> products = ProductClient.getProductsByIds(orderRequest);
+        boolean allProductsInStock = products.stream().allMatch(ProductResponse::isInStock);
+        System.out.println("Checking if all products are in stock: " + allProductsInStock);
+        if (!allProductsInStock){
+            throw new IllegalArgumentException("Some products are not in stock or not enough.");
+        }
+
         orderRespository.save(order);
+        System.out.println("Order"+ order.getId());
+
+        // send message to notification via rabbitmq
+        NotificationRequest notificationRequest = new NotificationRequest();
+        notificationRequest.setOrderID(order.getId());
+        notificationRequest.setMessage("Order placed successfully");
+
+        System.out.println("Updating product stock");
+        ProductClient.updateStock(orderRequest);
+
+        System.out.println("Sending notification to rabbitmq");
+
+        rabbitMQMessageProducer.publish(notificationRequest, notificationConfig.getInternalExchange(), notificationConfig.getInternalNotificationsRoutingKey());
+        System.out.println("Sent notification");
+
+
+        // return ok response to user
+        return ResponseEntity.ok("Order placed successfully");
     }
 
     private OrderItem mapFromDto(OrderItemDto orderItemDto, Order order) {
         OrderItem orderItem = new OrderItem();
-        orderItem.setPrice(orderItemDto.getPrice());
         orderItem.setQuantity(orderItemDto.getQuantity());
-        orderItem.setCode(orderItemDto.getCode());
+        orderItem.setProductID(orderItemDto.getId());
         orderItem.setOrder(order);
         return orderItem;
     }

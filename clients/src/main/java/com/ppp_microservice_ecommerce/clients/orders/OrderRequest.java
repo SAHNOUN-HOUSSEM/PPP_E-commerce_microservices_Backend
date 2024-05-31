@@ -1,4 +1,4 @@
-package com.ppp_microservice_ecommerce.orders.dto;
+package com.ppp_microservice_ecommerce.clients.orders;
 
 import lombok.*;
 
