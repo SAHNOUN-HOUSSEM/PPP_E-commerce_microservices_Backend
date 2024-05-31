@@ -2,6 +2,7 @@ package com.ppp_microservice_ecommerce.authService.controller;
 
 import com.ppp_microservice_ecommerce.authService.dto.UpdateUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
+import com.ppp_microservice_ecommerce.authService.service.JwtService;
 import com.ppp_microservice_ecommerce.authService.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final JwtService jwtService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtService jwtService) {
         this.userService = userService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("")
@@ -31,10 +34,12 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping("{id}")
-    public AppUser updateUser(@PathVariable Integer id, @RequestBody UpdateUserDto updateUserDto) {
-        log.info("Updating user by id {}", id);
-        return userService.updateUser(id, updateUserDto);
+    @PutMapping()
+    public AppUser updateUser(@RequestBody UpdateUserDto updateUserDto, @RequestHeader("Authorization") String BearerToken) {
+        String token = BearerToken.substring(7);
+        Integer userIdFromToken = jwtService.getUserIdFromToken(token);
+        log.info("Updating user by id {}", userIdFromToken);
+        return userService.updateUser(userIdFromToken, updateUserDto);
     }
 
 }
