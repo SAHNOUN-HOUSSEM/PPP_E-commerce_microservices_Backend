@@ -51,4 +51,11 @@ public record AuthController(AuthService authService, AuthenticationManager auth
         return authService.validateToken(validateTokenDto.token());
     }
 
+    @GetMapping("/getUserId")
+    public Integer getUserIdFromToken(@RequestHeader("Authorization") String BearerToken) {
+        log.info("Getting user id from token {}", BearerToken);
+        String token = BearerToken.substring(7);
+        return authService.getUserIdFromToken(token);
+    }
+
 }

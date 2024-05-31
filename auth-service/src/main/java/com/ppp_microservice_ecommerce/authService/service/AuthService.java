@@ -55,7 +55,14 @@ public record AuthService(
     }
 
     public String login(LoginUserDto loginUserDto) {
-        return jwtService.generateToken(loginUserDto.username());
+        Optional<AppUser> user = userRepository.findByUsername(loginUserDto.username());
+        if (user.isEmpty()) {
+            throw new IllegalStateException("User not found");
+        }
+        if (!passwordEncoder.matches(loginUserDto.password(), user.get().getPassword())) {
+            throw new IllegalStateException("Invalid password");
+        }
+        return jwtService.generateToken(user.get().getUsername(), user.get().getId());
     }
 
     public Boolean validateToken(final String token) {
@@ -67,4 +74,8 @@ public record AuthService(
         return Boolean.TRUE;
     }
 
+
+    public Integer getUserIdFromToken(String token) {
+        return jwtService.getUserIdFromToken(token);
+    }
 }
