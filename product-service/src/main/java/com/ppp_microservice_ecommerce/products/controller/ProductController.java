@@ -1,5 +1,7 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
+import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
+import com.ppp_microservice_ecommerce.products.dto.ProductResponse;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.service.ProductService;
@@ -24,6 +26,18 @@ public class ProductController {
     public List<Product> getProducts() {
         log.info("Getting product");
         return productService.getProducts();
+    }
+
+    @PostMapping("/ids")
+    public List<ProductResponse> getProductsByIds(@RequestBody OrderRequest order) {
+        log.info("Getting products by ids");
+        return productService.areInStock(order);
+    }
+
+    @PostMapping("/update")
+    public void updateStock(@RequestBody OrderRequest order) {
+        log.info("Updating product stock");
+        productService.updateStock(order);
     }
 
     @PostMapping()

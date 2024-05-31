@@ -17,10 +17,21 @@ import org.springframework.web.bind.annotation.*;
 public record AuthController(AuthService authService, AuthenticationManager authenticationManager) {
 
 
+
+    @GetMapping("/test")
+    public String test() {
+        return "Test";
+    }
+
     @PostMapping("/register")
     public AppUser register(@RequestBody RegisterUserDto registerUserDto) {
         log.info("Registering a new user {}", registerUserDto);
-        return authService.register(registerUserDto);
+        try {
+            return authService.register(registerUserDto);
+        } catch (Exception e) {
+            log.error("Error registering user {}", registerUserDto, e);
+            throw e;
+        }
     }
 
     @PostMapping("/login")
@@ -35,14 +46,9 @@ public record AuthController(AuthService authService, AuthenticationManager auth
     }
 
     @PostMapping("/validate")
-    public String validateToken(@RequestBody ValidateTokenDto validateTokenDto) {
+    public Boolean validateToken(@RequestBody ValidateTokenDto validateTokenDto) {
         log.info("Validating token {}", validateTokenDto.token());
-        authService.validateToken(validateTokenDto.token());
-        return "Token is valid";
+        return authService.validateToken(validateTokenDto.token());
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Test";
-    }
 }

@@ -28,6 +28,7 @@ public class AuthConfig {
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/auth/validate").permitAll()
+                .antMatchers("/auth/test").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()
