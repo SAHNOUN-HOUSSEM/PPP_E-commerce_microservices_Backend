@@ -1,5 +1,5 @@
 server:
-  port: 8089
+  port: 8082
 spring:
   application:
     name: product-service
@@ -10,7 +10,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      #ddl-auto: create-drop
+    #      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

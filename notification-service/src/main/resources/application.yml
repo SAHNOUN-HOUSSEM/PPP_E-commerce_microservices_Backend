@@ -1,8 +1,6 @@
 server:
   port: 8084
 spring:
-  profiles:
-    active: notification
   application:
     name: notification-service
   datasource:
@@ -11,8 +9,8 @@ spring:
     username: example-database
   jpa:
     hibernate:
-      ddl-auto: update
-      #ddl-auto: create-drop
+      #ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

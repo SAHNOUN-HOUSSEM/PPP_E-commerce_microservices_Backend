@@ -17,26 +17,25 @@ spring:
           uri: lb://product-service
           predicates:
             - Path=/product/**
-          filters:
-            - AuthenticationFilter
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/order/**
-          filters:
-            - AuthenticationFilter
+        - id: category-service
+          uri: lb://product-service
+          predicates:
+            - Path=/category/**
       globalcors:
         cors-configurations:
-            '[/**]':
-                allowedOrigins: "*"
-                allowedMethods:
-                - GET
-                - POST
-                - PUT
-                - DELETE
-                allowedHeaders:
-                - "*"
-
+          "[/**]":
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
 
 eureka:
   client:
