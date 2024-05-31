@@ -68,7 +68,7 @@ public record AuthService(
     public Boolean validateToken(final String token) {
         try {
             jwtService.validateToken(token);
-        }catch (Exception e){
+        } catch (Exception e) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;

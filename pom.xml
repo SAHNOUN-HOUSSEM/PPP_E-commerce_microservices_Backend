@@ -21,6 +21,7 @@
         <module>api-gateway</module>
         <module>auth-service</module>
         <module>sse-service</module>
+        <module>ImageUploadService</module>
     </modules>
 
     <properties>
