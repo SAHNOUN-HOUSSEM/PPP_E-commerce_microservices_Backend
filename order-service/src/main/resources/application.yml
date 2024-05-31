@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: order-service
+  profiles:
+    active: notification
   datasource:
     url: jdbc:postgresql://localhost:5432/orders
     password: example-database-password

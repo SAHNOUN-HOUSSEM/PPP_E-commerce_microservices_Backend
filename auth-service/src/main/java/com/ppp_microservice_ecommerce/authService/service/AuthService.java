@@ -1,11 +1,16 @@
 package com.ppp_microservice_ecommerce.authService.service;
 
+import com.ppp_microservice_ecommerce.amqp.RabbitMQMessageProducer;
 import com.ppp_microservice_ecommerce.authService.dto.LoginUserDto;
 import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
 import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
+import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationConfig;
+import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationConfig;
+import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +21,11 @@ import java.util.Optional;
 public record AuthService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
-        JwtService jwtService
+        JwtService jwtService,
+        RabbitMQMessageProducer rabbitMQMessageProducer,
+        UserNotificationConfig userNotificationConfig
 ) {
+
 
     public AppUser register(RegisterUserDto registerUserDto) {
         Optional<AppUser> user = userRepository.findByUsername(registerUserDto.username());
@@ -33,6 +41,15 @@ public record AuthService(
                 .build();
         appUser.setPassword(passwordEncoder.encode(registerUserDto.password()));
         userRepository.save(appUser);
+
+        // send notification to notification service
+        UserNotificationRequest userNotificationRequest = new UserNotificationRequest();
+        userNotificationRequest.setUserID(appUser.getId());
+        userNotificationRequest.setMessage("User registered successfully");
+
+        log.info("Sending notification to notification service");
+        rabbitMQMessageProducer.publish(userNotificationRequest, userNotificationConfig.getInternalExchange(), userNotificationConfig.getInternalNotificationsRoutingKey());
+        log.info("Notification sent to notification service");
 
         return appUser;
     }
