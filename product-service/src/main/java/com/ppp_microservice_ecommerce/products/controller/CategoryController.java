@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("category")
+@RequestMapping("/category")
 @Slf4j
 public class CategoryController {
     private final CategoryService categoryService;

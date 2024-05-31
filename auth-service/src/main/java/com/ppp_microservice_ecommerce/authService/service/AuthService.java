@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @Slf4j
 public record AuthService(
@@ -18,6 +20,10 @@ public record AuthService(
 ) {
 
     public AppUser register(RegisterUserDto registerUserDto) {
+        Optional<AppUser> user = userRepository.findByUsername(registerUserDto.username());
+        if (user.isPresent()) {
+            throw new IllegalStateException("Username already taken");
+        }
         AppUser appUser =AppUser.builder()
                 .firstName(registerUserDto.firstName())
                 .lastName(registerUserDto.lastName())
@@ -35,8 +41,13 @@ public record AuthService(
         return jwtService.generateToken(loginUserDto.username());
     }
 
-    public void validateToken(final String token) {
-        jwtService.validateToken(token);
+    public Boolean validateToken(final String token) {
+        try {
+            jwtService.validateToken(token);
+        }catch (Exception e){
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 
 }

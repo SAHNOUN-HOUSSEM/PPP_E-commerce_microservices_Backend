@@ -14,11 +14,18 @@ spring:
           filters:
             - AuthenticationFilter
         - id: product-service
-          uri: lb://product-service
+          uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/product/**
-          filters:
-            - AuthenticationFilter
+
+        - id: category-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/category/**
+        - id: brand-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/brand/**
       globalcors:
         cors-configurations:
             '[/**]':
