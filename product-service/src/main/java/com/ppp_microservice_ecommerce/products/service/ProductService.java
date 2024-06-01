@@ -4,6 +4,8 @@ import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
 import com.ppp_microservice_ecommerce.products.dto.ProductResponse;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,8 +22,10 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public Page<Product> getProducts(
+            Pageable pageable
+    ) {
+        return productRepository.findAll(pageable);
     }
 
     public void createProduct(Product product) {
