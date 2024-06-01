@@ -1,6 +1,8 @@
 package com.ppp_microservice_ecommerce.orders.service;
 
 import com.ppp_microservice_ecommerce.amqp.RabbitMQMessageProducer;
+import com.ppp_microservice_ecommerce.clients.auth.AppUser;
+import com.ppp_microservice_ecommerce.clients.auth.AppUserRoles;
 import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationRequest;
 import com.ppp_microservice_ecommerce.clients.orders.OrderItemDto;
 import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
@@ -86,9 +88,14 @@ public class OrderService {
         return orderItem;
     }
 
-    public List<OrderResponse> getOrders(Integer userId) {
+    public List<OrderResponse> getOrders(AppUser user){
+        List<Order> orders;
         System.out.println("Getting orders");
-        List<Order> orders = orderRespository.findAllByUserId(userId);
+        if(user.getRole() == AppUserRoles.USER){
+            orders = orderRespository.findAllByUserId(user.getId());
+        } else {
+            orders = orderRespository.findAll();
+        }
         System.out.println("Orders: " + orders);
         // Get the product IDs to send as a request
         Set<Integer> productIDs = orders.stream()
