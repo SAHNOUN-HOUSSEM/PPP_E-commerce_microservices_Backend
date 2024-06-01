@@ -1,5 +1,6 @@
 package com.ppp_microservice_ecommerce.products.service;
 
+import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
 import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.repository.BrandRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,5 +25,13 @@ public class BrandService {
 
     public Brand getBrand(Integer id) {
         return brandRepository.findById(id).orElse(null);
+    }
+
+    public Iterable<ProductDTO> getBrandProducts(Integer id) {
+        Brand brand = brandRepository.findById(id).orElse(null);
+        if (brand == null) {
+            return null;
+        }
+        return brand.getProducts().stream().map(product -> new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice(),product.getQuantity(),product.getImage())).toList();
     }
 }

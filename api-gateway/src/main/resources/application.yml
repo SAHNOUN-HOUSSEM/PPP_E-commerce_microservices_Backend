@@ -8,29 +8,44 @@ spring:
     gateway:
       routes:
         - id: auth-service
-          uri: lb://auth-service
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/auth/**
           filters:
             - AuthenticationFilter
-        - id: product-service
-          uri: lb://product-service
+        - id: user-service
+          uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/product/**
+            - Path=/user/**
           filters:
             - AuthenticationFilter
+        - id: product-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/product/**
+        - id: category-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/category/**
+        - id: brand-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/brand/**
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order/**
       globalcors:
         cors-configurations:
-            '[/**]':
-                allowedOrigins: "*"
-                allowedMethods:
-                - GET
-                - POST
-                - PUT
-                - DELETE
-                allowedHeaders:
-                - "*"
-
+          "[/**]":
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
 
 eureka:
   client:

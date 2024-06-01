@@ -7,6 +7,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/notifications
     password: example-database-password
     username: example-database
+  profiles:
+    active: notification
+
   jpa:
     hibernate:
       #ddl-auto: update
@@ -34,3 +37,10 @@ rabbitmq:
     notification: notification.queue
   routing-keys:
     internal-notification: internal.notification.routing-key
+  queues:
+    order-notification: order.notification.queue
+    user-notification: user.notification.queue
+  routing-keys:
+    order-notification: internal.order.notification.routing-key
+    user-notification: internal.user.notification.routing-key
+
