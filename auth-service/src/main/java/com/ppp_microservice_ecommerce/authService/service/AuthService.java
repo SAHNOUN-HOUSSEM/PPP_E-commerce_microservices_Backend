@@ -44,7 +44,10 @@ public record AuthService(
 
         // send notification to notification service
         UserNotificationRequest userNotificationRequest = new UserNotificationRequest();
+
         userNotificationRequest.setUserID(appUser.getId());
+        userNotificationRequest.setUsername(appUser.getUsername());
+        userNotificationRequest.setEmail(appUser.getEmail());
         userNotificationRequest.setMessage("User registered successfully");
 
         log.info("Sending notification to notification service");
@@ -55,6 +58,7 @@ public record AuthService(
     }
 
     public String login(LoginUserDto loginUserDto) {
+
         return jwtService.generateToken(loginUserDto.username());
     }
 

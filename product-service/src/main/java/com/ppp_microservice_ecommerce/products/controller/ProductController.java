@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/product")
@@ -26,6 +28,12 @@ public class ProductController {
     public List<Product> getProducts() {
         log.info("Getting product");
         return productService.getProducts();
+    }
+
+    @PostMapping("/names")
+    public Map<Integer,String> getProductsByIds(@RequestBody Set<Integer> productIDs) {
+        log.info("Getting products by ids");
+        return productService.getProductNames(productIDs);
     }
 
     @PostMapping("/ids")

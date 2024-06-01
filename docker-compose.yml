@@ -40,6 +40,9 @@ services:
     networks:
       - ppp-microservices
 
+  notification-service:
+
+
 networks:
   pg-network:
     driver: bridge

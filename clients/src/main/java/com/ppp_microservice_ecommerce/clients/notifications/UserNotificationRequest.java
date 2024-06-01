@@ -15,6 +15,8 @@ public class UserNotificationRequest implements Serializable {
     private final static long serialVersionUID = 1;
 
     Integer userID;
+    String username;
+    String email;
     String message;
 
 
