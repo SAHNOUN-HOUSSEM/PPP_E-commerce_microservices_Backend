@@ -3,7 +3,8 @@ package com.ppp_microservice_ecommerce.products.service;
 import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
 import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.repository.BrandRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -19,8 +20,10 @@ public class BrandService {
         brandRepository.save(brand);
     }
 
-    public Iterable<Brand> getAllBrands() {
-        return brandRepository.findAll();
+    public Page<Brand> getAllBrands(
+            Pageable pageable
+    ) {
+        return brandRepository.findAll(pageable);
     }
 
     public Brand getBrand(Integer id) {
