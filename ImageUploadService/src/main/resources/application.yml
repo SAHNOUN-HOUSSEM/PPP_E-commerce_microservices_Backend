@@ -1,0 +1,23 @@
+server:
+  port: 8090
+spring:
+  application:
+    name: image-upload-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/images
+    password: example-database-password
+    username: example-database
+  jpa:
+    hibernate:
+      ddl-auto: update
+    #      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+cloudinary:
+  cloud_name: "dwxnwtaly"
+  api_key: "592832995713976"
+  api_secret: "oSmAm9HEXQm3R_qTRc5Fr6LoHiE"

@@ -5,6 +5,7 @@ import com.ppp_microservice_ecommerce.products.dto.ProductResponse;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,10 @@ public class ProductService {
     public Product getProduct(Integer id) {
         System.out.println(id);
         return productRepository.findById(id).orElse(null);
+    }
+
+    public List<Product> getProductsByIds(List<Integer> ids) {
+        return productRepository.findAllById(ids);
     }
 
 

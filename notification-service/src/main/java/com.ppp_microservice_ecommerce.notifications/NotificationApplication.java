@@ -2,7 +2,6 @@ package com.ppp_microservice_ecommerce.notifications;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(
         scanBasePackages= {
@@ -12,7 +11,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
                 "com.ppp_microservice_ecommerce.clients.notifications",
         }
 )
-@EnableAsync
 public class NotificationApplication {
     public static void main(String[] args) {
         SpringApplication.run(NotificationApplication.class, args);

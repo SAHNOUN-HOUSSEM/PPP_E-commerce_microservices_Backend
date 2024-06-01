@@ -6,7 +6,6 @@ import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
 import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
-import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationConfig;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationConfig;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -58,17 +57,27 @@ public record AuthService(
     }
 
     public String login(LoginUserDto loginUserDto) {
-
-        return jwtService.generateToken(loginUserDto.username());
+        Optional<AppUser> user = userRepository.findByUsername(loginUserDto.username());
+        if (user.isEmpty()) {
+            throw new IllegalStateException("User not found");
+        }
+        if (!passwordEncoder.matches(loginUserDto.password(), user.get().getPassword())) {
+            throw new IllegalStateException("Invalid password");
+        }
+        return jwtService.generateToken(user.get().getUsername(), user.get().getId());
     }
 
     public Boolean validateToken(final String token) {
         try {
             jwtService.validateToken(token);
-        }catch (Exception e){
+        } catch (Exception e) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
     }
 
+
+    public Integer getUserIdFromToken(String token) {
+        return jwtService.getUserIdFromToken(token);
+    }
 }
