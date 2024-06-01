@@ -20,4 +20,5 @@ public class Order extends BaseEntity {
     private Integer id;
     @OneToMany(mappedBy ="order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItemsList;
+    private Integer userId;
 }

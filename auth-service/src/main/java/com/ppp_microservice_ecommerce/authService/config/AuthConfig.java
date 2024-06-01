@@ -25,10 +25,8 @@ public class AuthConfig {
         return http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/register").permitAll()
-                .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/validate").permitAll()
-                .antMatchers("/auth/test").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable()

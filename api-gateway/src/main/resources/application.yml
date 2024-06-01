@@ -13,6 +13,12 @@ spring:
             - Path=/auth/**
           filters:
             - AuthenticationFilter
+        - id: user-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/user/**
+          filters:
+            - AuthenticationFilter
         - id: product-service
           uri: lb://PRODUCT-SERVICE
           predicates:
@@ -28,7 +34,7 @@ spring:
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
-            - Path=/order/**
+            - Path=/orders/**
       globalcors:
         cors-configurations:
           "[/**]":

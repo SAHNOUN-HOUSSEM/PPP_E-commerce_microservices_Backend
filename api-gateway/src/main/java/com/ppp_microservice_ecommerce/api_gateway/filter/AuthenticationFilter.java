@@ -1,10 +1,6 @@
 package com.ppp_microservice_ecommerce.api_gateway.filter;
 
-import com.ppp_microservice_ecommerce.api_gateway.service.JwtService;
 import com.ppp_microservice_ecommerce.api_gateway.utils.JwtUtils;
-import com.ppp_microservice_ecommerce.clients.auth.AuthClient;
-import com.ppp_microservice_ecommerce.clients.auth.ValidateTokenDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -15,14 +11,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
     private RouteValidator routeValidator;
-    @Autowired
-    private AuthClient authClient ;
+  //  @Autowired
+//    private AuthClient authClient ;
 
-    private JwtUtils jwtUtils;
-    private JwtService jwtService;
-    public AuthenticationFilter() {
+    private final JwtUtils jwtUtils;
+    public AuthenticationFilter(JwtUtils jwtUtils) {
         super(Config.class);
         this.routeValidator = new RouteValidator();
+        this.jwtUtils = jwtUtils;
     }
 
     @Override
@@ -37,7 +33,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
                 if(authHeader!=null && authHeader.startsWith("Bearer")) {
                     String token = authHeader.substring(7);
-                    Boolean isValid= authClient.validateToken(new ValidateTokenDto(token));
+                    //Boolean isValid= authClient.validateToken(new ValidateTokenDto(token));
+                    Boolean isValid= jwtUtils.validateToken(token);
                     if(!isValid){
                         System.out.println("Token is invalid");
                         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);

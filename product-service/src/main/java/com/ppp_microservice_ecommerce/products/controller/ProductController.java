@@ -14,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/product")
@@ -36,6 +38,12 @@ public class ProductController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         log.info(pageable.toString());
         return productService.getProducts(pageable);
+    }
+
+    @PostMapping("/names")
+    public Map<Integer,String> getProductsByIds(@RequestBody Set<Integer> productIDs) {
+        log.info("Getting products by ids");
+        return productService.getProductNames(productIDs);
     }
 
     @PostMapping("/ids")
