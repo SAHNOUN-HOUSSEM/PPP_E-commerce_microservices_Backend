@@ -31,14 +31,14 @@ services:
     ports:
       - 9411:9411
 
-#  rabbitmq:
-#    image: rabbitmq:3.9.11-management-alpine
-#    container_name: rabbitmq-ppp
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
-#    networks:
-#      - ppp-microservices
+  rabbitmq:
+    image: rabbitmq:3.9.11-management-alpine
+    container_name: rabbitmq-ppp
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - ppp-microservices
 
 
 
