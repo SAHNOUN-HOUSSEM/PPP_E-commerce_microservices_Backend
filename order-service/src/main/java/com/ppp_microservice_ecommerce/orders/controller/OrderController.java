@@ -27,8 +27,20 @@ public class OrderController {
 
 
     @GetMapping()
-    public List<OrderResponse> getOrders(){
-        return orderService.getOrders();
+    public List<OrderResponse> getOrders( @RequestHeader("Authorization") String BearerToken) {
+        System.out.println("BearerToken = " + BearerToken);
+        String token = BearerToken.substring(7);
+        ValidateTokenDto validateTokenDto = new ValidateTokenDto(token);
+        Boolean isValid = authClient.validateToken(validateTokenDto);
+        if (!isValid) {
+            throw new RuntimeException("Invalid token");
+        }
+        System.out.println("Token is valid");
+        System.out.println("token = " + token);
+        GetUserFromTokenDto getUserFromTokenDto = new GetUserFromTokenDto(token);
+        Integer userId = authClient.getUserIdFromToken(getUserFromTokenDto);
+        System.out.println("userId = " + userId);
+        return orderService.getOrders(userId);
     }
 
     @GetMapping("/test")

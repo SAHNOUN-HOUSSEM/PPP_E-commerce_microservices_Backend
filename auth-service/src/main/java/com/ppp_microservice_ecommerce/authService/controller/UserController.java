@@ -28,10 +28,17 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("{id}")
-    public AppUser getUserById(@PathVariable("id") Integer id) {
+    @GetMapping("/{id}")
+    public AppUser getUserById(@PathVariable("id") Integer id, @RequestHeader("Authorization") String BearerToken) {
         log.info("Getting user by id {}", id);
-        return userService.getUserById(id);
+        System.out.println("BearerToken = " + BearerToken);
+        String token = BearerToken.substring(7);
+        Integer userIdFromToken = jwtService.getUserIdFromToken(token);
+        log.info("logged in user id {}", userIdFromToken);
+        if (!userIdFromToken.equals(id)) {
+            throw new RuntimeException("Unauthorized");
+        }
+        return userService.getUserById(userIdFromToken);
     }
 
     @PutMapping()
