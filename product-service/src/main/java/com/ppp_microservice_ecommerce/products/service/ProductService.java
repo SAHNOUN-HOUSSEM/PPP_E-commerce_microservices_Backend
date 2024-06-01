@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -67,5 +69,10 @@ public class ProductService {
                 productRepository.save(product);
             }
         });
+    }
+
+    public Map<Integer, String> getProductNames(Set<Integer> productIDs) {
+        return productRepository.findAllById(productIDs).stream()
+                .collect(Collectors.toMap(Product::getId, Product::getName));
     }
 }

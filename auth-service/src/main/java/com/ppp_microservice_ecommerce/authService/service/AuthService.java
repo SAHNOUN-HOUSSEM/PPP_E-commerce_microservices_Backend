@@ -6,7 +6,6 @@ import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
 import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
-import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationConfig;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationConfig;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +43,10 @@ public record AuthService(
 
         // send notification to notification service
         UserNotificationRequest userNotificationRequest = new UserNotificationRequest();
+
         userNotificationRequest.setUserID(appUser.getId());
+        userNotificationRequest.setUsername(appUser.getUsername());
+        userNotificationRequest.setEmail(appUser.getEmail());
         userNotificationRequest.setMessage("User registered successfully");
 
         log.info("Sending notification to notification service");

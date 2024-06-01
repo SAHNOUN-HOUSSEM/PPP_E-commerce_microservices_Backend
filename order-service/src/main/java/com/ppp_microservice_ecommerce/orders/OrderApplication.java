@@ -11,6 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
                     "com.ppp_microservice_ecommerce.orders",
                     "com.ppp_microservice_ecommerce.amqp",
                     "com.ppp_microservice_ecommerce.clients",
+                    "com.ppp_microservice_ecommerce.api_gateway",
             }
     )
 @EnableEurekaClient

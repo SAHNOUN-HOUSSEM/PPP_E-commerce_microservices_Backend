@@ -6,8 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(
         scanBasePackages= {
                 "com.ppp_microservice_ecommerce.notifications",
+                "email",
                 "com.ppp_microservice_ecommerce.amqp",
-                "com.ppp_microservice_ecommerce.clients.notifications"
+                "com.ppp_microservice_ecommerce.clients.notifications",
         }
 )
 public class NotificationApplication {
