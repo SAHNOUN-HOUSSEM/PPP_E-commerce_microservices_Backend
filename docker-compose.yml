@@ -40,7 +40,6 @@ services:
     networks:
       - ppp-microservices
 
-  notification-service:
 
 
 networks:
