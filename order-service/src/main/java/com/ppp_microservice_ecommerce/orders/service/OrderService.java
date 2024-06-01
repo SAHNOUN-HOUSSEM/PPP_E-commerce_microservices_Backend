@@ -34,6 +34,8 @@ public class OrderService {
                 .collect(Collectors.toList());
 
         order.setOrderItemsList(orderItemsList);
+        order.setUserId(order.getUserId());
+
 
         // call product service to check if all products are in stock
         System.out.println("Checking if all products are in stock");
@@ -51,6 +53,7 @@ public class OrderService {
         OrderNotificationRequest orderNotificationRequest = new OrderNotificationRequest();
         orderNotificationRequest.setOrderID(order.getId());
         orderNotificationRequest.setMessage("Order placed successfully");
+
 
         System.out.println("Updating product stock");
         ProductClient.updateStock(orderRequest);

@@ -1,9 +1,9 @@
 package com.ppp_microservice_ecommerce.authService.controller;
 
-import com.ppp_microservice_ecommerce.authService.dto.UpdateUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.service.JwtService;
 import com.ppp_microservice_ecommerce.authService.service.UserService;
+import com.ppp_microservice_ecommerce.clients.auth.UpdateUserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public AppUser getUserById(@PathVariable Integer id) {
+    public AppUser getUserById(@PathVariable("id") Integer id) {
         log.info("Getting user by id {}", id);
         return userService.getUserById(id);
     }

@@ -1,8 +1,8 @@
 package com.ppp_microservice_ecommerce.authService.service;
 
-import com.ppp_microservice_ecommerce.authService.dto.UpdateUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
+import com.ppp_microservice_ecommerce.clients.auth.UpdateUserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

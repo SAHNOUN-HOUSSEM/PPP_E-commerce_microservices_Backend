@@ -11,4 +11,5 @@ import java.util.List;
 @Setter
 public class OrderRequest {
     private List<OrderItemDto> orderItemsList;
+    private Integer userId;
 }

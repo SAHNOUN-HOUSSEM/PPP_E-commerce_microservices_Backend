@@ -4,6 +4,7 @@ import com.ppp_microservice_ecommerce.authService.dto.LoginUserDto;
 import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.service.AuthService;
+import com.ppp_microservice_ecommerce.clients.auth.GetUserFromTokenDto;
 import com.ppp_microservice_ecommerce.clients.auth.ValidateTokenDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,11 +52,12 @@ public record AuthController(AuthService authService, AuthenticationManager auth
         return authService.validateToken(validateTokenDto.token());
     }
 
-    @GetMapping("/getUserId")
-    public Integer getUserIdFromToken(@RequestHeader("Authorization") String BearerToken) {
-        log.info("Getting user id from token {}", BearerToken);
-        String token = BearerToken.substring(7);
+    @PostMapping("/getUserId")
+    public Integer getUserIdFromToken(@RequestBody GetUserFromTokenDto getUserFromTokenDto) {
+        System.out.println("getting user id from token");
+        System.out.println("getUserFromTokenDto = " + getUserFromTokenDto);
+        String token = getUserFromTokenDto.token();
+        log.info("Getting user id from token {}", token);
         return authService.getUserIdFromToken(token);
     }
-
 }

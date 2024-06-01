@@ -1,4 +1,4 @@
-package com.ppp_microservice_ecommerce.authService.dto;
+package com.ppp_microservice_ecommerce.clients.auth;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
