@@ -9,12 +9,16 @@ import com.ppp_microservice_ecommerce.clients.products.ProductResponse;
 import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationConfig;
 import com.ppp_microservice_ecommerce.orders.entities.Order;
 import com.ppp_microservice_ecommerce.orders.entities.OrderItem;
+import com.ppp_microservice_ecommerce.orders.entities.OrderResponse;
 import com.ppp_microservice_ecommerce.orders.respository.OrderRespository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,7 +67,6 @@ public class OrderService {
         rabbitMQMessageProducer.publish(orderNotificationRequest, orderNotificationConfig.getInternalExchange(), orderNotificationConfig.getInternalNotificationsRoutingKey());
         System.out.println("Sent notification");
 
-        // emit event to sse
 
 
         // return ok response to user
@@ -76,5 +79,35 @@ public class OrderService {
         orderItem.setProductID(orderItemDto.getId());
         orderItem.setOrder(order);
         return orderItem;
+    }
+
+    public List<OrderResponse> getOrders() {
+        System.out.println("Getting orders");
+        List<Order> orders = orderRespository.findAll();
+        System.out.println("Orders: " + orders);
+        // Get the product IDs to send as a request
+        Set<Integer> productIDs = orders.stream()
+                .flatMap(order -> order.getOrderItemsList().stream())
+                .map(OrderItem::getProductID)
+                .collect(Collectors.toSet());
+        System.out.println("Product IDs: " + productIDs);
+        Map<Integer,String> productNames = ProductClient.getProductNames(productIDs);
+        System.out.println("Product names: " + productNames);
+        // Map each order to OrderResponse
+        return orders.stream()
+                .map(order -> {
+                    OrderResponse orderResponse = new OrderResponse();
+                    orderResponse.setOrderID(order.getId());
+
+                    Map<String,Integer> products = new HashMap<>();
+                    for(OrderItem orderItem: order.getOrderItemsList()){
+                        String productName = productNames.get(orderItem.getProductID());
+                        products.put(productName,orderItem.getQuantity());
+                    }
+
+                    orderResponse.setProducts(products);
+                    return orderResponse;
+                })
+                .collect(Collectors.toList());
     }
 }

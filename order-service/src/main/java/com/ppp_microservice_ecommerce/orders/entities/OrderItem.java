@@ -1,5 +1,6 @@
 package com.ppp_microservice_ecommerce.orders.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,5 +21,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
+    @JsonIgnore
+    @ToString.Exclude
     private Order order;
 }

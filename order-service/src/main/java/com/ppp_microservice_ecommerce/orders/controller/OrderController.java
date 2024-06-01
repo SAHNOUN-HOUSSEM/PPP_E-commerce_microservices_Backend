@@ -4,6 +4,7 @@ import com.ppp_microservice_ecommerce.clients.auth.AuthClient;
 import com.ppp_microservice_ecommerce.clients.auth.GetUserFromTokenDto;
 import com.ppp_microservice_ecommerce.clients.auth.ValidateTokenDto;
 import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
+import com.ppp_microservice_ecommerce.orders.entities.OrderResponse;
 import com.ppp_microservice_ecommerce.orders.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class OrderController {
 
     private final OrderService orderService;
@@ -23,8 +27,8 @@ public class OrderController {
 
 
     @GetMapping()
-    public String mot() {
-        return "Hello";
+    public List<OrderResponse> getOrders(){
+        return orderService.getOrders();
     }
 
     @GetMapping("/test")
