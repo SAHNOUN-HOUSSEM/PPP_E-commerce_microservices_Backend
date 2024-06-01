@@ -1,9 +1,9 @@
 package com.ppp_microservice_ecommerce.authService.controller;
 
-import com.ppp_microservice_ecommerce.authService.dto.UpdateUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.service.JwtService;
 import com.ppp_microservice_ecommerce.authService.service.UserService;
+import com.ppp_microservice_ecommerce.clients.auth.UpdateUserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +28,17 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("{id}")
-    public AppUser getUserById(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public AppUser getUserById(@PathVariable("id") Integer id, @RequestHeader("Authorization") String BearerToken) {
         log.info("Getting user by id {}", id);
-        return userService.getUserById(id);
+        System.out.println("BearerToken = " + BearerToken);
+        String token = BearerToken.substring(7);
+        Integer userIdFromToken = jwtService.getUserIdFromToken(token);
+        log.info("logged in user id {}", userIdFromToken);
+        if (!userIdFromToken.equals(id)) {
+            throw new RuntimeException("Unauthorized");
+        }
+        return userService.getUserById(userIdFromToken);
     }
 
     @PutMapping()
