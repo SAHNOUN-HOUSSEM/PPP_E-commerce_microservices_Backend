@@ -23,14 +23,20 @@ spring:
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/product/**
+          filters:
+            - AuthenticationFilter
         - id: category-service
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/category/**
+          filters:
+            - AuthenticationFilter
         - id: brand-service
           uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/brand/**
+          filters:
+            - AuthenticationFilter
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
