@@ -116,4 +116,17 @@ public class ProductController {
         log.info("Getting product by ids");
         return productService.getProductsByIds(ids);
     }
+
+    @PutMapping("/{id}")
+    public void updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+        log.info("Updating product");
+        productService.updateProduct(id, product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Integer id) {
+        log.info("Deleting product");
+        productService.deleteProduct(id);
+    }
+
 }
