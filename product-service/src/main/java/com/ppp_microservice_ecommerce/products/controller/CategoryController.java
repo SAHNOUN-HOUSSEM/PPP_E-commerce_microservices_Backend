@@ -5,6 +5,10 @@ import com.ppp_microservice_ecommerce.products.entities.Category;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +40,12 @@ public class CategoryController {
     }
 
     @GetMapping("{id}/products")
-    public List<ProductDTO> getCategoryProducts(@PathVariable int id) {
-        return categoryService.getCategoryProducts(id);
+    public Page<ProductDTO> getCategoryProducts(@PathVariable int id,
+                                                @RequestParam(defaultValue = "0") Integer page,
+                                                @RequestParam(defaultValue = "10") Integer size,
+                                                @RequestParam(defaultValue = "id") String sortBy)
+    {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return categoryService.getCategoryProducts(id, pageable);
     }
 }
