@@ -3,6 +3,7 @@ package com.ppp_microservice_ecommerce.products.controller;
 import com.ppp_microservice_ecommerce.clients.auth.*;
 import com.ppp_microservice_ecommerce.products.dto.CreateCategoryDto;
 import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
+import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.entities.Category;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.service.CategoryService;
@@ -64,9 +65,16 @@ public class CategoryController {
     public Page<ProductDTO> getCategoryProducts(@PathVariable int id,
                                                 @RequestParam(defaultValue = "0") Integer page,
                                                 @RequestParam(defaultValue = "10") Integer size,
-                                                @RequestParam(defaultValue = "id") String sortBy)
+                                                @RequestParam(defaultValue = "id") String sortBy,
+                                                @RequestParam(defaultValue = "") String search
+                                                )
     {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return categoryService.getCategoryProducts(id, pageable);
+        return categoryService.getCategoryProducts(id, pageable,search);
     }
+
+//    @GetMapping("{id}/brands")
+//    public List<Brand> getBrandsByCategory(@PathVariable int id) {
+//        return categoryService.getBrandsByCategory(id);
+//    }
 }
