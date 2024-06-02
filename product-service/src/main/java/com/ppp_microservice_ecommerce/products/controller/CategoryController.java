@@ -1,6 +1,7 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
 import com.ppp_microservice_ecommerce.clients.auth.*;
+import com.ppp_microservice_ecommerce.products.dto.CreateCategoryDto;
 import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
 import com.ppp_microservice_ecommerce.products.entities.Category;
 import com.ppp_microservice_ecommerce.products.entities.Product;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,9 +26,9 @@ public class CategoryController {
 
     private final AuthClient authClient;
 
-    @PostMapping()
-    public void createCategory(@RequestBody Category category
-    //        , @RequestHeader("Authorization") String BearerToken
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void createCategory(@ModelAttribute CreateCategoryDto createCategoryDto
+                               //        , @RequestHeader("Authorization") String BearerToken
     ) {
         /*
         System.out.println("BearerToken = " + BearerToken);
@@ -45,7 +47,7 @@ public class CategoryController {
             throw new RuntimeException("Unauthorized");
         }
         */
-        categoryService.createCategory(category);
+        categoryService.createCategory(createCategoryDto);
     }
 
     @GetMapping()

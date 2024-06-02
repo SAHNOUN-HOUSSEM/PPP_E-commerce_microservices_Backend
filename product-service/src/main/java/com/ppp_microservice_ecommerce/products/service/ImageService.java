@@ -1,9 +1,9 @@
-package com.ppp_microservice_ecommerce.image_upload_service.service;
+package com.ppp_microservice_ecommerce.products.service;
 
 
-import com.ppp_microservice_ecommerce.image_upload_service.dto.ImageModel;
-import com.ppp_microservice_ecommerce.image_upload_service.entity.Image;
-import com.ppp_microservice_ecommerce.image_upload_service.repository.ImageRepository;
+
+import com.ppp_microservice_ecommerce.products.dto.ImageModel;
+import com.ppp_microservice_ecommerce.products.entities.Image;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,9 @@ import java.util.Map;
 public class ImageService  {
 
     private final CloudinaryService cloudinaryService;
-    private final ImageRepository imageRepository;
 
-    public ImageService(CloudinaryService cloudinaryService, ImageRepository imageRepository) {
+    public ImageService(CloudinaryService cloudinaryService) {
         this.cloudinaryService = cloudinaryService;
-        this.imageRepository = imageRepository;
     }
 
 
@@ -35,7 +33,6 @@ public class ImageService  {
             if(image.getUrl() == null) {
                 return ResponseEntity.badRequest().build();
             }
-            imageRepository.save(image);
             return ResponseEntity.ok().body(Map.of("url", image.getUrl()));
         } catch (Exception e) {
             e.printStackTrace();

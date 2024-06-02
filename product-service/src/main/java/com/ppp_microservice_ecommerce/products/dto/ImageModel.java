@@ -1,4 +1,4 @@
-package com.ppp_microservice_ecommerce.image_upload_service.dto;
+package com.ppp_microservice_ecommerce.products.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

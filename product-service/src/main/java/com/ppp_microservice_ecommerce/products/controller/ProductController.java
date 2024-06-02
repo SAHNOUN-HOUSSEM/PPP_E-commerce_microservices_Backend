@@ -2,6 +2,7 @@ package com.ppp_microservice_ecommerce.products.controller;
 
 import com.ppp_microservice_ecommerce.clients.auth.*;
 import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
+import com.ppp_microservice_ecommerce.products.dto.CreateProductDto;
 import com.ppp_microservice_ecommerce.products.dto.ProductResponse;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.entities.Product;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -78,10 +80,8 @@ public class ProductController {
         productService.updateStock(order);
     }
 
-    @PostMapping()
-    public void createProduct(@RequestBody Product product
-    //        , @RequestHeader("Authorization") String BearerToken
-    ) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void createProduct(@ModelAttribute CreateProductDto productDto) {
         /*
         System.out.println("BearerToken = " + BearerToken);
         String token = BearerToken.substring(7);
@@ -102,7 +102,7 @@ public class ProductController {
 
          */
         log.info("Creating product");
-        productService.createProduct(product);
+        productService.createProduct(productDto);
     }
 
     @GetMapping("/{id}")

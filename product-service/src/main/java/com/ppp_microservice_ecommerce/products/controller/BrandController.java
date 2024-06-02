@@ -1,6 +1,7 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
 import com.ppp_microservice_ecommerce.clients.auth.*;
+import com.ppp_microservice_ecommerce.products.dto.CreateBrandDto;
 import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
 import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.service.BrandService;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,9 +23,9 @@ public class BrandController {
     private final BrandService brandService;
     private final AuthClient authClient;
 
-    @PostMapping()
-    public void createBrand(@RequestBody Brand brand
-    //        , @RequestHeader("Authorization") String BearerToken
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void createBrand(@ModelAttribute CreateBrandDto brandDto
+                            //        , @RequestHeader("Authorization") String BearerToken
     ) {
         /*
         System.out.println("BearerToken = " + BearerToken);
@@ -43,8 +45,8 @@ public class BrandController {
         }
 
          */
-        log.info("new brand creation {} ", brand);
-        brandService.createBrand(brand);
+        log.info("new brand creation {} ", brandDto);
+        brandService.createBrand(brandDto);
     }
 
     @GetMapping()

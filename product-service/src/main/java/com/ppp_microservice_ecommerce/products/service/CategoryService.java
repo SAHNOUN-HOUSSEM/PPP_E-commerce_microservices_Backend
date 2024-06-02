@@ -1,5 +1,7 @@
 package com.ppp_microservice_ecommerce.products.service;
 
+import com.ppp_microservice_ecommerce.products.dto.CreateCategoryDto;
+import com.ppp_microservice_ecommerce.products.dto.ImageModel;
 import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
 import com.ppp_microservice_ecommerce.products.entities.Category;
 import com.ppp_microservice_ecommerce.products.entities.Product;
@@ -11,19 +13,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
+    private final ImageService imageService;
 
-    public CategoryService(CategoryRepository categoryRepository, ProductRepository productRepository) {
+    public CategoryService(CategoryRepository categoryRepository, ProductRepository productRepository, ImageService imageService) {
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
+        this.imageService = imageService;
     }
 
-    public void createCategory(Category category) {
-        categoryRepository.save(category);
+    public void createCategory(CreateCategoryDto createCategoryDto) {
+        ImageModel imageModel = new ImageModel();
+        imageModel.setName(createCategoryDto.getName());
+        imageModel.setFile(createCategoryDto.getImage());
+        Map<String, String> response = imageService.uploadImage(imageModel).getBody();
+        Category category = Category.builder()
+                .name(createCategoryDto.getName())
+                .description(createCategoryDto.getDescription())
+                .image(response.get("url"))
+                .build();
+        categoryRepository.saveAndFlush(category);
     }
 
     public Iterable<Category> getAllCategories() {

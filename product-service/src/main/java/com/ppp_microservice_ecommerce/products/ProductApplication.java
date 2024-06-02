@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
         scanBasePackages = {
                 "com.ppp_microservice_ecommerce.products",
                 "com.ppp_microservice_ecommerce.amqp",
-                "com.ppp_microservice_ecommerce.clients"
+                "com.ppp_microservice_ecommerce.clients",
         }
 )
 @EnableEurekaClient

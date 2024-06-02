@@ -1,6 +1,8 @@
 package com.ppp_microservice_ecommerce.products.service;
 
 import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
+import com.ppp_microservice_ecommerce.products.dto.CreateProductDto;
+import com.ppp_microservice_ecommerce.products.dto.ImageModel;
 import com.ppp_microservice_ecommerce.products.dto.ProductResponse;
 import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.entities.Category;
@@ -11,7 +13,6 @@ import com.ppp_microservice_ecommerce.products.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -25,11 +26,14 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final BrandRepository brandRepository;
     private final CategoryRepository categoryRepository;
+    private final ImageService imageService;
 
-    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository productRepository, BrandRepository brandRepository, CategoryRepository categoryRepository
+            , ImageService imageService) {
         this.productRepository = productRepository;
         this.brandRepository = brandRepository;
         this.categoryRepository = categoryRepository;
+        this.imageService = imageService;
     }
 
     public Page<Product> getProducts(
@@ -38,7 +42,20 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
-    public void createProduct(Product product) {
+    public void createProduct(CreateProductDto createProductDto) {
+        ImageModel imageModel = new ImageModel();
+        imageModel.setName(createProductDto.getName());
+        imageModel.setFile(createProductDto.getImage());
+        Map<String, String> response = imageService.uploadImage(imageModel).getBody();
+        Product product = Product.builder()
+                .name(createProductDto.getName())
+                .price(createProductDto.getPrice())
+                .quantity(createProductDto.getQuantity())
+                .description(createProductDto.getDescription())
+                .brand(brandRepository.findById(createProductDto.getBrandId()).orElse(null))
+                .category(categoryRepository.findById(createProductDto.getCategoryId()).orElse(null))
+                .image(response.get("url"))
+                .build();
         productRepository.saveAndFlush(product);
     }
 
