@@ -7,6 +7,7 @@ import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
 import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
 import com.ppp_microservice_ecommerce.authService.response.LoginResponse;
+import com.ppp_microservice_ecommerce.authService.response.MeResponse;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationConfig;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +85,9 @@ public record AuthService(
         return jwtService.getUserIdFromToken(token);
     }
 
-    public AppUser getUserFromToken(String token) {
-        return userRepository.findById(jwtService.getUserIdFromToken(token)).orElseThrow();
+    public MeResponse getUserFromToken(String token) {
+        AppUser user= userRepository.findById(jwtService.getUserIdFromToken(token)).orElseThrow();
+        String newToken = jwtService.generateToken(user.getUsername(), user.getId());
+        return new MeResponse(user, newToken);
     }
 }

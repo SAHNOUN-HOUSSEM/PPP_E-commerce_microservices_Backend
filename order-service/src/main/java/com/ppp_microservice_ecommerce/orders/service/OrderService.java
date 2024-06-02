@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRespository orderRespository;
-    private final ProductClient ProductClient;
+    private final ProductClient productClient;
     private final RabbitMQMessageProducer rabbitMQMessageProducer;
     private final OrderNotificationConfig orderNotificationConfig;
 
@@ -50,7 +50,7 @@ public class OrderService {
 
         // call product service to check if all products are in stock
         System.out.println("Checking if all products are in stock");
-        List<ProductResponse> products = ProductClient.getProductsByIds(orderRequest);
+        List<ProductResponse> products = productClient.getProductsByIds(orderRequest);
         boolean allProductsInStock = products.stream().allMatch(ProductResponse::isInStock);
         System.out.println("Checking if all products are in stock: " + allProductsInStock);
         if (!allProductsInStock){
@@ -67,7 +67,7 @@ public class OrderService {
 
 
         System.out.println("Updating product stock");
-        ProductClient.updateStock(orderRequest);
+        productClient.updateStock(orderRequest);
 
         System.out.println("Sending notification to rabbitmq");
 
@@ -103,7 +103,7 @@ public class OrderService {
                 .map(OrderItem::getProductID)
                 .collect(Collectors.toSet());
         System.out.println("Product IDs: " + productIDs);
-        Map<Integer,String> productNames = ProductClient.getProductNames(productIDs);
+        Map<Integer,String> productNames = productClient.getProductNames(productIDs);
         System.out.println("Product names: " + productNames);
         // Map each order to OrderResponse
         return orders.stream()

@@ -53,7 +53,10 @@ public class ProductController {
     }
 
     @PostMapping("/update")
-    public void updateStock(@RequestBody OrderRequest order, @RequestHeader("Authorization") String BearerToken) {
+    public void updateStock(@RequestBody OrderRequest order
+    //        , @RequestHeader("Authorization") String BearerToken
+    ) {
+        /*
         System.out.println("BearerToken = " + BearerToken);
         String token = BearerToken.substring(7);
         ValidateTokenDto validateTokenDto = new ValidateTokenDto(token);
@@ -69,12 +72,17 @@ public class ProductController {
         if(user.getRole().equals(AppUserRoles.USER)){
             throw new RuntimeException("Unauthorized");
         }
+
+         */
         log.info("Updating product stock");
         productService.updateStock(order);
     }
 
     @PostMapping()
-    public void createProduct(@RequestBody Product product, @RequestHeader("Authorization") String BearerToken) {
+    public void createProduct(@RequestBody Product product
+    //        , @RequestHeader("Authorization") String BearerToken
+    ) {
+        /*
         System.out.println("BearerToken = " + BearerToken);
         String token = BearerToken.substring(7);
         ValidateTokenDto validateTokenDto = new ValidateTokenDto(token);
@@ -91,6 +99,8 @@ public class ProductController {
             throw new RuntimeException("Unauthorized");
         }
         System.out.println(product.getId());
+
+         */
         log.info("Creating product");
         productService.createProduct(product);
     }

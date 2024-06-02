@@ -22,7 +22,10 @@ public class BrandController {
     private final AuthClient authClient;
 
     @PostMapping()
-    public void createBrand(@RequestBody Brand brand, @RequestHeader("Authorization") String BearerToken) {
+    public void createBrand(@RequestBody Brand brand
+    //        , @RequestHeader("Authorization") String BearerToken
+    ) {
+        /*
         System.out.println("BearerToken = " + BearerToken);
         String token = BearerToken.substring(7);
         ValidateTokenDto validateTokenDto = new ValidateTokenDto(token);
@@ -38,6 +41,8 @@ public class BrandController {
         if(user.getRole().equals(AppUserRoles.USER)){
             throw new RuntimeException("Unauthorized");
         }
+
+         */
         log.info("new brand creation {} ", brand);
         brandService.createBrand(brand);
     }

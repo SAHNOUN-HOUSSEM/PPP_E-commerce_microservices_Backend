@@ -21,7 +21,10 @@ public class CategoryController {
     private final AuthClient authClient;
 
     @PostMapping()
-    public void createCategory(@RequestBody Category category, @RequestHeader("Authorization") String BearerToken) {
+    public void createCategory(@RequestBody Category category
+    //        , @RequestHeader("Authorization") String BearerToken
+    ) {
+        /*
         System.out.println("BearerToken = " + BearerToken);
         String token = BearerToken.substring(7);
         ValidateTokenDto validateTokenDto = new ValidateTokenDto(token);
@@ -37,6 +40,7 @@ public class CategoryController {
         if(user.getRole().equals(AppUserRoles.USER)){
             throw new RuntimeException("Unauthorized");
         }
+        */
         categoryService.createCategory(category);
     }
 
