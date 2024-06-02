@@ -1,4 +1,4 @@
-package com.ppp_microservice_ecommerce.image_upload_service.service;
+package com.ppp_microservice_ecommerce.products.service;
 
 
 import com.cloudinary.Cloudinary;

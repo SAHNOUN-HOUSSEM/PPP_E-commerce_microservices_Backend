@@ -9,16 +9,28 @@ import java.util.function.Predicate;
 @Component
 public class RouteValidator {
 
-    public static final List<String> openApiEndpoints = List.of(
-            "/auth/register",
-            "/auth/login",
-            "/auth/validate",
-            "product/ids"
+    public static final List<Map<String, String>> openApiRoutes = List.of(
+            Map.of("route", "/auth/login", "method", "POST"),
+            Map.of("route", "/auth/register", "method", "POST"),
+            Map.of("route", "/auth/validate", "method", "POST"),
+            Map.of("route", "/auth/me", "method", "POST"),
+            Map.of("route", "/product", "method", "GET"),
+            Map.of("route", "/brand", "method", "GET"),
+            Map.of("route", "/brand/{id}", "method", "GET"),
+            Map.of("route", "/brand/{id}/products", "method", "GET"),
+            Map.of("route", "/category", "method", "GET"),
+            Map.of("route", "/category/{id}", "method", "GET"),
+            Map.of("route", "/category/{id}/products", "method", "GET")
     );
 
+
+
     public Predicate<ServerHttpRequest> isSecured =
-            request -> openApiEndpoints
+            request -> openApiRoutes
                     .stream()
-                    .noneMatch(uri -> request.getURI().getPath().contains(uri));
+                    .noneMatch(
+                            map -> request.getURI().getPath().contains(map.get("route"))
+                                    && request.getMethod().name().equals(map.get("method"))
+                    );
 
 }

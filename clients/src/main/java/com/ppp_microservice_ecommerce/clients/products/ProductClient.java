@@ -21,5 +21,5 @@ public interface ProductClient {
     public List<ProductResponse> getProductsByIds(@RequestBody OrderRequest order);
 
     @PostMapping("/update")
-    public void updateStock(@RequestBody OrderRequest order);
+    void updateStock(@RequestBody OrderRequest order);
 }

@@ -6,6 +6,8 @@ import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
 import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
+import com.ppp_microservice_ecommerce.authService.response.LoginResponse;
+import com.ppp_microservice_ecommerce.authService.response.MeResponse;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationConfig;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +38,7 @@ public record AuthService(
                 .lastName(registerUserDto.lastName())
                 .email(registerUserDto.email())
                 .username(registerUserDto.username())
-                .role(AppUserRoles.USER)
+                .role(registerUserDto.role())
                 .build();
         appUser.setPassword(passwordEncoder.encode(registerUserDto.password()));
         userRepository.save(appUser);
@@ -56,7 +58,7 @@ public record AuthService(
         return appUser;
     }
 
-    public String login(LoginUserDto loginUserDto) {
+    public LoginResponse login(LoginUserDto loginUserDto) {
         Optional<AppUser> user = userRepository.findByUsername(loginUserDto.username());
         if (user.isEmpty()) {
             throw new IllegalStateException("User not found");
@@ -64,7 +66,9 @@ public record AuthService(
         if (!passwordEncoder.matches(loginUserDto.password(), user.get().getPassword())) {
             throw new IllegalStateException("Invalid password");
         }
-        return jwtService.generateToken(user.get().getUsername(), user.get().getId());
+        //find the user and generate a token
+        String token = jwtService.generateToken(user.get().getUsername(), user.get().getId());
+        return new LoginResponse(token, user.get().getUsername(), user.get().getRole().name());
     }
 
     public Boolean validateToken(final String token) {
@@ -79,5 +83,11 @@ public record AuthService(
 
     public Integer getUserIdFromToken(String token) {
         return jwtService.getUserIdFromToken(token);
+    }
+
+    public MeResponse getUserFromToken(String token) {
+        AppUser user= userRepository.findById(jwtService.getUserIdFromToken(token)).orElseThrow();
+        String newToken = jwtService.generateToken(user.getUsername(), user.getId());
+        return new MeResponse(user, newToken);
     }
 }

@@ -1,5 +1,6 @@
 package com.ppp_microservice_ecommerce.orders.controller;
 
+import com.ppp_microservice_ecommerce.clients.auth.AppUser;
 import com.ppp_microservice_ecommerce.clients.auth.AuthClient;
 import com.ppp_microservice_ecommerce.clients.auth.GetUserFromTokenDto;
 import com.ppp_microservice_ecommerce.clients.auth.ValidateTokenDto;
@@ -19,7 +20,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class OrderController {
 
     private final OrderService orderService;
@@ -38,9 +38,9 @@ public class OrderController {
         System.out.println("Token is valid");
         System.out.println("token = " + token);
         GetUserFromTokenDto getUserFromTokenDto = new GetUserFromTokenDto(token);
-        Integer userId = authClient.getUserIdFromToken(getUserFromTokenDto);
-        System.out.println("userId = " + userId);
-        return orderService.getOrders(userId);
+        AppUser user = authClient.getUserFromToken(getUserFromTokenDto);
+        System.out.println("user = " + user);
+        return orderService.getOrders(user);
     }
 
     @GetMapping("/test")

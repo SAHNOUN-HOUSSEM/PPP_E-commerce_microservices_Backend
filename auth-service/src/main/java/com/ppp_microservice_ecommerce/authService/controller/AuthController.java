@@ -3,6 +3,8 @@ package com.ppp_microservice_ecommerce.authService.controller;
 import com.ppp_microservice_ecommerce.authService.dto.LoginUserDto;
 import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
+import com.ppp_microservice_ecommerce.authService.response.LoginResponse;
+import com.ppp_microservice_ecommerce.authService.response.MeResponse;
 import com.ppp_microservice_ecommerce.authService.service.AuthService;
 import com.ppp_microservice_ecommerce.clients.auth.GetUserFromTokenDto;
 import com.ppp_microservice_ecommerce.clients.auth.ValidateTokenDto;
@@ -36,7 +38,7 @@ public record AuthController(AuthService authService, AuthenticationManager auth
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginUserDto loginUserDto) {
+    public LoginResponse login(@RequestBody LoginUserDto loginUserDto) {
         log.info("Logging in user {}", loginUserDto);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDto.username(), loginUserDto.password()));
         if (!authentication.isAuthenticated()) {
@@ -60,4 +62,14 @@ public record AuthController(AuthService authService, AuthenticationManager auth
         log.info("Getting user id from token {}", token);
         return authService.getUserIdFromToken(token);
     }
+
+    @PostMapping("/me")
+    public MeResponse getUserFromToken(@RequestBody GetUserFromTokenDto getUserFromTokenDto) {
+        System.out.println("getting user from token");
+        System.out.println("getUserFromTokenDto = " + getUserFromTokenDto);
+        String token = getUserFromTokenDto.token();
+        log.info("Getting user from token {}", token);
+        return authService.getUserFromToken(token);
+    }
+
 }

@@ -1,5 +1,7 @@
 package com.ppp_microservice_ecommerce.authService.dto;
 
+import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
@@ -14,5 +16,7 @@ public record RegisterUserDto (
          String lastName,
         @NotNull(message = "Email is required")
         @Email(message = "Email is invalid")
-         String email
+        String email,
+
+        AppUserRoles role
 ){}

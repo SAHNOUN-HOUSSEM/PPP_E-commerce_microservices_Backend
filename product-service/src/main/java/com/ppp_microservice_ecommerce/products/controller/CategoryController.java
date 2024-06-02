@@ -1,33 +1,54 @@
 package com.ppp_microservice_ecommerce.products.controller;
 
+import com.ppp_microservice_ecommerce.clients.auth.*;
+import com.ppp_microservice_ecommerce.products.dto.CreateCategoryDto;
 import com.ppp_microservice_ecommerce.products.dto.ProductDTO;
 import com.ppp_microservice_ecommerce.products.entities.Brand;
 import com.ppp_microservice_ecommerce.products.entities.Category;
 import com.ppp_microservice_ecommerce.products.entities.Product;
 import com.ppp_microservice_ecommerce.products.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@RequiredArgsConstructor
 @Slf4j
 public class CategoryController {
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private final AuthClient authClient;
 
-    @PostMapping()
-    public void createCategory(@RequestBody Category category) {
-//        log.info("new category creation");
-        categoryService.createCategory(category);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void createCategory(@ModelAttribute CreateCategoryDto createCategoryDto
+                               //        , @RequestHeader("Authorization") String BearerToken
+    ) {
+        /*
+        System.out.println("BearerToken = " + BearerToken);
+        String token = BearerToken.substring(7);
+        ValidateTokenDto validateTokenDto = new ValidateTokenDto(token);
+        Boolean isValid = authClient.validateToken(validateTokenDto);
+        if (!isValid) {
+            throw new RuntimeException("Invalid token");
+        }
+        System.out.println("Token is valid");
+        System.out.println("token = " + token);
+        GetUserFromTokenDto getUserFromTokenDto = new GetUserFromTokenDto(token);
+        AppUser user = authClient.getUserFromToken(getUserFromTokenDto);
+        System.out.println("user = " + user);
+        if(user.getRole().equals(AppUserRoles.USER)){
+            throw new RuntimeException("Unauthorized");
+        }
+        */
+        categoryService.createCategory(createCategoryDto);
     }
 
     @GetMapping()

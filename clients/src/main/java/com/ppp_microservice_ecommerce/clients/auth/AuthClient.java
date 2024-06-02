@@ -19,6 +19,9 @@ public interface AuthClient {
     @PostMapping("auth/getUserId")
     Integer getUserIdFromToken(@RequestBody GetUserFromTokenDto getUserFromTokenDto);
 
+    @PostMapping("auth/me")
+    AppUser getUserFromToken(@RequestBody GetUserFromTokenDto getUserFromTokenDto);
+
     @GetMapping("user")
     List<AppUser> getAllUsers();
 
