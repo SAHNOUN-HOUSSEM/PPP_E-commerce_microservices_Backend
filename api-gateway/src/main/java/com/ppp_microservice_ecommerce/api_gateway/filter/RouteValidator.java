@@ -15,6 +15,8 @@ public class RouteValidator {
             Map.of("route", "/auth/validate", "method", "POST"),
             Map.of("route", "/auth/me", "method", "POST"),
             Map.of("route", "/product", "method", "GET"),
+            Map.of("route", "/product/{id}", "method", "GET"),
+            Map.of("route", "/product/lists", "method", "POST"),
             Map.of("route", "/brand", "method", "GET"),
             Map.of("route", "/brand/{id}", "method", "GET"),
             Map.of("route", "/brand/{id}/products", "method", "GET"),

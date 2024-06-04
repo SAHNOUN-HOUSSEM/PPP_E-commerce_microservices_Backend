@@ -52,7 +52,7 @@ public class BrandController {
     @GetMapping()
     public Page<Brand> getAllBrands(
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "100") Integer size,
             @RequestParam(defaultValue = "id") String sortBy
     ) {
         log.info("Getting brand");
@@ -68,6 +68,16 @@ public class BrandController {
     @GetMapping("{id}/products")
     public Iterable<ProductDTO> getBrandProducts(@PathVariable Integer id) {
         return brandService.getBrandProducts(id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBrand(@PathVariable Integer id) {
+        brandService.deleteBrand(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateBrand(@PathVariable Integer id, @RequestBody CreateBrandDto brandDto) {
+        brandService.updateBrand(id, brandDto);
     }
 
 }

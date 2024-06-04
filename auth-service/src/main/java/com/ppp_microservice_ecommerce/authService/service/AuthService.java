@@ -7,11 +7,12 @@ import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.entity.AppUserRoles;
 import com.ppp_microservice_ecommerce.authService.repository.UserRepository;
 import com.ppp_microservice_ecommerce.authService.response.LoginResponse;
-import com.ppp_microservice_ecommerce.authService.response.MeResponse;
+import com.ppp_microservice_ecommerce.clients.auth.MeResponse;
+import com.ppp_microservice_ecommerce.clients.auth.UserDto;
+import com.ppp_microservice_ecommerce.clients.auth.UserRoles;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationConfig;
 import com.ppp_microservice_ecommerce.clients.notifications.UserNotificationRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +89,14 @@ public record AuthService(
     public MeResponse getUserFromToken(String token) {
         AppUser user= userRepository.findById(jwtService.getUserIdFromToken(token)).orElseThrow();
         String newToken = jwtService.generateToken(user.getUsername(), user.getId());
-        return new MeResponse(user, newToken);
+        UserDto userDto = UserDto.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .role(user.getRole()== AppUserRoles.ADMIN? UserRoles.ADMIN: UserRoles.USER)
+                .build();
+        return new MeResponse(userDto, newToken);
     }
 }

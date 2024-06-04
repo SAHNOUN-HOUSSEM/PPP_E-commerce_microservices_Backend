@@ -29,25 +29,8 @@ public class CategoryController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void createCategory(@ModelAttribute CreateCategoryDto createCategoryDto
-                               //        , @RequestHeader("Authorization") String BearerToken
+
     ) {
-        /*
-        System.out.println("BearerToken = " + BearerToken);
-        String token = BearerToken.substring(7);
-        ValidateTokenDto validateTokenDto = new ValidateTokenDto(token);
-        Boolean isValid = authClient.validateToken(validateTokenDto);
-        if (!isValid) {
-            throw new RuntimeException("Invalid token");
-        }
-        System.out.println("Token is valid");
-        System.out.println("token = " + token);
-        GetUserFromTokenDto getUserFromTokenDto = new GetUserFromTokenDto(token);
-        AppUser user = authClient.getUserFromToken(getUserFromTokenDto);
-        System.out.println("user = " + user);
-        if(user.getRole().equals(AppUserRoles.USER)){
-            throw new RuntimeException("Unauthorized");
-        }
-        */
         categoryService.createCategory(createCategoryDto);
     }
 
@@ -64,7 +47,7 @@ public class CategoryController {
     @GetMapping("{id}/products")
     public Page<ProductDTO> getCategoryProducts(@PathVariable int id,
                                                 @RequestParam(defaultValue = "0") Integer page,
-                                                @RequestParam(defaultValue = "10") Integer size,
+                                                @RequestParam(defaultValue = "100") Integer size,
                                                 @RequestParam(defaultValue = "id") String sortBy,
                                                 @RequestParam(defaultValue = "") String search
                                                 )
@@ -73,8 +56,13 @@ public class CategoryController {
         return categoryService.getCategoryProducts(id, pageable,search);
     }
 
-//    @GetMapping("{id}/brands")
-//    public List<Brand> getBrandsByCategory(@PathVariable int id) {
-//        return categoryService.getBrandsByCategory(id);
-//    }
+    @DeleteMapping("/{id}")
+    public void deleteCategory(@PathVariable int id) {
+        categoryService.deleteCategory(id);
+    }
+
+    @PutMapping("/{id}")
+    public void updateCategory(@PathVariable int id, @RequestBody CreateCategoryDto createCategoryDto) {
+        categoryService.updateCategory(id, createCategoryDto);
+    }
 }

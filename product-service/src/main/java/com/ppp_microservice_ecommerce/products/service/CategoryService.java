@@ -71,15 +71,26 @@ public class CategoryService {
 
     }
 
-//    public List<Brand> getBrandsByCategory(Integer categoryId) {
-//        Category category = categoryRepository.findById(categoryId).orElse(null);
-//        if(category == null) {
-//            return null;
-//        }
-//        List<Product> products = productRepository.findByCategory(category);
-//        return products.stream()
-//                .map(Product::getBrand)
-//                .distinct()
-//                .collect(Collectors.toList());
-//    }
+    public void deleteCategory(Integer id) {
+        Category category = categoryRepository.findById(id).orElse(null);
+        if(category == null) {
+            return;
+        }
+        categoryRepository.delete(category);
+    }
+
+    public void updateCategory(Integer id, CreateCategoryDto createCategoryDto) {
+        Category category = categoryRepository.findById(id).orElse(null);
+        if(category == null) {
+            return;
+        }
+//        ImageModel imageModel = new ImageModel();
+//        imageModel.setName(createCategoryDto.getName());
+//        imageModel.setFile(createCategoryDto.getImage());
+//        Map<String, String> response = imageService.uploadImage(imageModel).getBody();
+        category.setName(createCategoryDto.getName());
+        category.setDescription(createCategoryDto.getDescription());
+//        category.setImage(response.get("url"));
+        categoryRepository.saveAndFlush(category);
+    }
 }

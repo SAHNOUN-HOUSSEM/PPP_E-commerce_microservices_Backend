@@ -51,4 +51,26 @@ public class BrandService {
         }
         return brand.getProducts().stream().map(product -> new ProductDTO(product.getId(), product.getName(), product.getDescription(), product.getPrice(),product.getQuantity(),product.getImage())).toList();
     }
+
+    public void deleteBrand(Integer id) {
+        Brand brand = brandRepository.findById(id).orElse(null);
+        if (brand == null) {
+            return;
+        }
+        brandRepository.delete(brand);
+    }
+
+    public void updateBrand(Integer id, CreateBrandDto brandDto) {
+        Brand brand = brandRepository.findById(id).orElse(null);
+        if (brand == null) {
+            return;
+        }
+        ImageModel imageModel = new ImageModel();
+        imageModel.setName(brandDto.getName());
+        imageModel.setFile(brandDto.getImage());
+        Map<String, String> response = imageService.uploadImage(imageModel).getBody();
+        brand.setName(brandDto.getName());
+        brand.setImage(response.get("url"));
+        brandRepository.saveAndFlush(brand);
+    }
 }
