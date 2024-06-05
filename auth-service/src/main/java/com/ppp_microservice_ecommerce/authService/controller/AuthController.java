@@ -4,7 +4,7 @@ import com.ppp_microservice_ecommerce.authService.dto.LoginUserDto;
 import com.ppp_microservice_ecommerce.authService.dto.RegisterUserDto;
 import com.ppp_microservice_ecommerce.authService.entity.AppUser;
 import com.ppp_microservice_ecommerce.authService.response.LoginResponse;
-import com.ppp_microservice_ecommerce.authService.response.MeResponse;
+import com.ppp_microservice_ecommerce.clients.auth.MeResponse;
 import com.ppp_microservice_ecommerce.authService.service.AuthService;
 import com.ppp_microservice_ecommerce.clients.auth.GetUserFromTokenDto;
 import com.ppp_microservice_ecommerce.clients.auth.ValidateTokenDto;

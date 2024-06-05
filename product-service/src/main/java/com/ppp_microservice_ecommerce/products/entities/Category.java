@@ -32,7 +32,7 @@ public class Category {
     String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category",cascade = CascadeType.REMOVE)
     private List<Product> products;
 
 }

@@ -1,9 +1,6 @@
 package com.ppp_microservice_ecommerce.orders.controller;
 
-import com.ppp_microservice_ecommerce.clients.auth.AppUser;
-import com.ppp_microservice_ecommerce.clients.auth.AuthClient;
-import com.ppp_microservice_ecommerce.clients.auth.GetUserFromTokenDto;
-import com.ppp_microservice_ecommerce.clients.auth.ValidateTokenDto;
+import com.ppp_microservice_ecommerce.clients.auth.*;
 import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
 import com.ppp_microservice_ecommerce.orders.entities.OrderResponse;
 import com.ppp_microservice_ecommerce.orders.service.OrderService;
@@ -38,7 +35,8 @@ public class OrderController {
         System.out.println("Token is valid");
         System.out.println("token = " + token);
         GetUserFromTokenDto getUserFromTokenDto = new GetUserFromTokenDto(token);
-        AppUser user = authClient.getUserFromToken(getUserFromTokenDto);
+        MeResponse data = authClient.getUserFromToken(getUserFromTokenDto);
+        UserDto user = data.getUser();
         System.out.println("user = " + user);
         return orderService.getOrders(user);
     }

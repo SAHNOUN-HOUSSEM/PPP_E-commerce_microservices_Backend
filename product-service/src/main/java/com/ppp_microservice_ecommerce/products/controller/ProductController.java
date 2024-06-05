@@ -33,7 +33,7 @@ public class ProductController {
     @GetMapping()
     public Page<Product> getProducts(
             @RequestParam(defaultValue = "0") Integer page,
-            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "100") Integer size,
             @RequestParam(defaultValue = "id") String sortBy
     ) {
         log.info("Getting product");

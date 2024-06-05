@@ -35,6 +35,7 @@ public class NotificationService {
     @RabbitListener(queues = {"user.notification.queue"})
     public void sendUserNotification(UserNotificationRequest userNotificationRequest) throws MessagingException {
         System.out.println("saving user");
+        System.out.println("rabbit mq message ");
         Notification notification = Notification.builder()
                 .originId(userNotificationRequest.getUserID())
                 .message(userNotificationRequest.getMessage())

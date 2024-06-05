@@ -15,11 +15,4 @@ public class NotificationApplication {
     public static void main(String[] args) {
         SpringApplication.run(NotificationApplication.class, args);
     }
-
-//    @Bean
-//    CommandLineRunner commandLineRunner(RabbitMQMessageProducer producer, NotificationConfig config) {
-//        return args -> {
-//            producer.publish("Hello World", config.getInternalExchange(), config.getInternalNotificationsRoutingKey());
-//        };
-//    }
 }

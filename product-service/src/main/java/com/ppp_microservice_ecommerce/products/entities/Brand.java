@@ -29,7 +29,7 @@ public class Brand {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "brand")
+    @OneToMany(mappedBy = "brand",cascade = CascadeType.REMOVE)
     private List<Product> products;
 
 }

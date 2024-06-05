@@ -2,7 +2,8 @@ package com.ppp_microservice_ecommerce.orders.service;
 
 import com.ppp_microservice_ecommerce.amqp.RabbitMQMessageProducer;
 import com.ppp_microservice_ecommerce.clients.auth.AppUser;
-import com.ppp_microservice_ecommerce.clients.auth.AppUserRoles;
+import com.ppp_microservice_ecommerce.clients.auth.UserDto;
+import com.ppp_microservice_ecommerce.clients.auth.UserRoles;
 import com.ppp_microservice_ecommerce.clients.notifications.OrderNotificationRequest;
 import com.ppp_microservice_ecommerce.clients.orders.OrderItemDto;
 import com.ppp_microservice_ecommerce.clients.orders.OrderRequest;
@@ -88,10 +89,11 @@ public class OrderService {
         return orderItem;
     }
 
-    public List<OrderResponse> getOrders(AppUser user){
+    public List<OrderResponse> getOrders(UserDto user){
         List<Order> orders;
         System.out.println("Getting orders");
-        if(user.getRole() == AppUserRoles.USER){
+        System.out.println("User: " + user);
+        if(user.getRole() == UserRoles.USER){
             orders = orderRespository.findAllByUserId(user.getId());
         } else {
             orders = orderRespository.findAll();
@@ -114,7 +116,7 @@ public class OrderService {
                     Map<String,Integer> products = new HashMap<>();
                     for(OrderItem orderItem: order.getOrderItemsList()){
                         String productName = productNames.get(orderItem.getProductID());
-                        products.put(productName,orderItem.getQuantity());
+                        if(productName != null) products.put(productName,orderItem.getQuantity());
                     }
 
                     orderResponse.setProducts(products);
